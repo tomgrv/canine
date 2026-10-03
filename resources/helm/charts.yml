@@ -102,3 +102,23 @@ helm:
       logo: /images/helm/portainer.webp
       chart_url: portainer/portainer
       repository_url: https://portainer.github.io/k8s/
+
+    - name: rancher
+      display_name: Rancher
+      description: Multi-cluster Kubernetes management platform
+      logo: /images/helm/rancher.webp
+      chart_url: rancher-stable/rancher
+      repository_url: https://releases.rancher.com/server-charts/stable
+      template:
+        - name: Hostname
+          key: hostname
+          type: string
+          required: true
+        - name: Bootstrap password
+          key: bootstrapPassword
+          type: string
+          required: true
+        - name: Replicas
+          key: replicas
+          type: integer
+          default: 1
