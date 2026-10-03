@@ -117,7 +117,8 @@ helm:
         - name: Bootstrap password
           key: bootstrapPassword
           type: string
-          required: true
+          hidden: true
+          generate: true
         - name: Replicas
           key: replicas
           type: integer
