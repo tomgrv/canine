@@ -47,7 +47,7 @@ class AddOnsController < ApplicationController
     respond_to do |format|
       if result.success?
         AddOns::InstallJob.perform_later(@add_on, current_user)
-        format.html { redirect_to @add_on, notice: "Add on was successfully created." }
+        format.html { redirect_to @add_on, notice: created_notice(@add_on) }
         format.json { render :show, status: :created, location: @add_on }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -154,6 +154,15 @@ class AddOnsController < ApplicationController
   end
 
   private
+
+  def created_notice(add_on)
+    generated = (add_on.chart_definition['template'] || []).select { |t| t['generate'] }.map do |t|
+      "#{t['name']}: #{add_on.values.dig(*t['key'].split('.'))}"
+    end
+    return "Add on was successfully created." if generated.empty?
+
+    "Add on was successfully created. Save these generated values now, they are only shown once. #{generated.join(', ')}"
+  end
 
   def fetch_or_infer_schema(package, values_yaml)
     if package["has_values_schema"]
