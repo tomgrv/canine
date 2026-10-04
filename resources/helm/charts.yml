@@ -137,5 +137,5 @@ helm:
           required: true
         - name: OAuth client secret
           key: oauth.clientSecret
-          type: string
+          type: password
           required: true
