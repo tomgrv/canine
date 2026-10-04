@@ -14,12 +14,20 @@ class AddOns::ApplyTemplateToValues
         add_on.values.dotset(key, "#{variable['value']}#{variable['unit']}")
       else
         variable_definition = add_on.chart_definition['template'].find { |t| t['key'] == key }
+        next if variable_definition['generate'] && variable.blank?
+
         if variable_definition['type'] == 'integer'
           add_on.values.dotset(key, variable.to_i)
         else
           add_on.values.dotset(key, variable)
         end
       end
+    end
+
+    (add_on.chart_definition['template'] || []).select { |t| t['generate'] }.each do |definition|
+      next if add_on.values.dig(*definition['key'].split('.')).present?
+
+      add_on.values.dotset(definition['key'], SecureRandom.alphanumeric(24))
     end
   end
 end
