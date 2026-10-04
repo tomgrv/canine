@@ -123,3 +123,19 @@ helm:
           key: replicas
           type: integer
           default: 1
+
+    - name: tailscale
+      display_name: Tailscale
+      description: Kubernetes operator for secure access to cluster services over your tailnet
+      logo: /images/helm/tailscale.webp
+      chart_url: tailscale/tailscale-operator
+      repository_url: https://pkgs.tailscale.com/helmcharts
+      template:
+        - name: OAuth client ID
+          key: oauth.clientId
+          type: string
+          required: true
+        - name: OAuth client secret
+          key: oauth.clientSecret
+          type: string
+          required: true
